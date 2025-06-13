@@ -30,7 +30,7 @@ export function DraggableItem({
   zIndex = 1,
   isResizable = false,
   onResize,
-  initialSize = { width: "auto", height: "auto" },
+  initialSize = { width:100, height: 100 },
 }: DraggableItemProps) {
   const [position, setPosition] = useState(initialPosition);
   const [size, setSize] = useState(initialSize);
