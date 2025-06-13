@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, ReactNode } from "react";
+import { useState, useRef, ReactNode, useImperativeHandle, forwardRef } from "react";
 import { motion } from "framer-motion";
 
 interface DraggableItemProps {
@@ -138,22 +138,26 @@ export function DraggableItem({
 }
 
 interface DropZoneProps {
-  children: ReactNode;
+  children?:React.ReactNode;
   className?: string;
   onDrop?: (item: any) => void;
   onDragOver?: (e: React.DragEvent) => void;
   acceptDrop?: boolean;
 }
 
-export function DropZone({
-  children,
-  className = "",
-  onDrop,
-  onDragOver,
-  acceptDrop = true,
-}: DropZoneProps) {
+export const DropZone = forwardRef<HTMLDivElement, DropZoneProps>(
+  (
+    {
+      children,
+      className = "",
+      onDrop,
+      onDragOver,
+      acceptDrop = true,
+    },
+    ref
+  ) =>  {
   const dropZoneRef = useRef<HTMLDivElement>(null);
-
+  useImperativeHandle(ref, () => dropZoneRef.current as HTMLDivElement);
   const handleDragOver = (e: React.DragEvent) => {
     if (acceptDrop) {
       e.preventDefault();
@@ -184,7 +188,7 @@ export function DropZone({
     </div>
   );
 }
-
+)
 interface DraggableSourceProps {
   id: string;
   children: ReactNode;
